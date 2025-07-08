@@ -51,14 +51,6 @@
       margin-top: 2rem;
       cursor: pointer;
     }
-    #summary {
-      margin-top: 2rem;
-      background: #fff5f5;
-      border: 2px dashed #d32f2f;
-      padding: 1rem;
-      white-space: pre-line;
-      display: none;
-    }
     footer {
       text-align: center;
       padding: 1rem;
@@ -125,17 +117,15 @@
       <label for="seats">Number of Seats *</label>
       <select id="seats" required>
         <option value="" disabled selected>Select seats</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5+</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
       </select>
 
       <label for="requests">Special Requests (Private ride, custom time, etc.)</label>
       <textarea id="requests" rows="3" placeholder="Mention your request here"></textarea>
-
-      <div id="summary"></div>
 
       <button type="submit">Send Booking via WhatsApp</button>
     </form>
@@ -158,37 +148,37 @@
     function sendToWhatsApp(e) {
       e.preventDefault();
 
-      const name = document.getElementById("fullName").value;
-      const phone = document.getElementById("phone").value;
+      const name = document.getElementById("fullName").value.trim();
+      const phone = document.getElementById("phone").value.trim();
       const location = document.getElementById("location").value;
-      const pickup = document.getElementById("pickup").value;
-      const dropoff = document.getElementById("dropoff").value;
+      const pickup = document.getElementById("pickup").value.trim();
+      const dropoff = document.getElementById("dropoff").value.trim();
       const bags = parseInt(document.getElementById("bags").value);
       const date = document.getElementById("date").value;
       const time = document.getElementById("time").value;
-      const seats = document.getElementById("seats").value;
-      const requests = document.getElementById("requests").value;
+      const seats = parseInt(document.getElementById("seats").value);
+      const requests = document.getElementById("requests").value.trim();
 
       const ridePrice = routePrices[location] || 0;
-      const extraBagCharge = bags > 1 ? (bags - 1) * 15 : 0;
-      const totalPrice = ridePrice + extraBagCharge;
+      const totalRide = ridePrice * seats;
+      const extraBags = bags > 1 ? bags - 1 : 0;
+      const bagCharge = extraBags * 15;
+      const totalPrice = totalRide + bagCharge;
 
-      const message = `🚗 *New Ride Booking* 🚗%0A
-*Name:* ${name}\n
-*Phone:* ${phone}\n
-*Route:* ${location} ($${ridePrice})\n
-*Pickup:* ${pickup}\n
-*Drop-off:* ${dropoff}\n
-*Bags:* ${bags} (${extraBagCharge > 0 ? "$" + extraBagCharge : "Free"})\n
-*Date:* ${date}\n
-*Time:* ${time}\n
-*Seats:* ${seats}\n
-*Total Price:* $${totalPrice}\n
-${requests ? "*Request:* " + requests + "\n" : ""}`;
+      let message = `🚗 *New Ride Booking* 🚗\n`;
+      message += `*Name:* ${name}\n`;
+      message += `*Phone:* ${phone}\n`;
+      message += `*Route:* ${location} ($${ridePrice} x ${seats} = $${totalRide})\n`;
+      message += `*Pickup:* ${pickup}\n`;
+      message += `*Drop-off:* ${dropoff}\n`;
+      message += `*Bags:* ${bags} (${bagCharge > 0 ? "$" + bagCharge : "Free"})\n`;
+      message += `*Date:* ${date}\n`;
+      message += `*Time:* ${time}\n`;
+      message += `*Seats:* ${seats}\n`;
+      message += `*Total Price:* $${totalPrice}\n`;
+      if (requests) message += `*Request:* ${requests}`;
 
-      // 🔁 Replace YOUR_NUMBER_HERE with your actual number (e.g., "16478881234")
-      const whatsappNumber = "16475643731";
-
+      const whatsappNumber = "16475643731"; // Replace with your own number if needed
       const waURL = `https://wa.me/${16475643731}?text=${encodeURIComponent(message)}`;
       window.open(waURL, '_blank');
     }
