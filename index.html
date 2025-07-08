@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -93,10 +93,10 @@
         <option value="" disabled selected>Select number of bags</option>
         <option value="0">0 bags</option>
         <option value="1">1 bag (7kg - free)</option>
-        <option value="2">2 bags (23kg - $15 per bag)</option>
-        <option value="3">3 bags (23kg - $15 per bag)</option>
-        <option value="4">4 bags (23kg - $15 per bag)</option>
-        <option value="5">5 bags (23kg - $15 per bag)</option>
+        <option value="2">2 bags (1 bag free + 1 x 23kg $15)</option>
+        <option value="3">3 bags (1 bag free + 2 x 23kg $30)</option>
+        <option value="4">4 bags (1 bag free + 3 x 23kg $45)</option>
+        <option value="5">5 bags (1 bag free + 4 x 23kg $60)</option>
       </select>
 
       <label for="date">Date of Ride *</label>
@@ -161,8 +161,11 @@
 
       const ridePrice = routePrices[location] || 0;
       const totalRide = ridePrice * seats;
+
+      // 7kg bag free, each additional 23kg bag costs $15
       const extraBags = bags > 1 ? bags - 1 : 0;
       const bagCharge = extraBags * 15;
+
       const totalPrice = totalRide + bagCharge;
 
       let message = `🚗 *New Ride Booking* 🚗\n`;
