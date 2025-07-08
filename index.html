@@ -93,10 +93,10 @@
         <option value="" disabled selected>Select number of bags</option>
         <option value="0">0 bags</option>
         <option value="1">1 bag (7kg - free)</option>
-        <option value="2">2 bags (1 bag free + 1 x 23kg $15)</option>
-        <option value="3">3 bags (1 bag free + 2 x 23kg $30)</option>
-        <option value="4">4 bags (1 bag free + 3 x 23kg $45)</option>
-        <option value="5">5 bags (1 bag free + 4 x 23kg $60)</option>
+        <option value="2">2 bags (both 23kg - $30)</option>
+        <option value="3">3 bags (all 23kg - $45)</option>
+        <option value="4">4 bags (all 23kg - $60)</option>
+        <option value="5">5 bags (pricing not defined)</option>
       </select>
 
       <label for="date">Date of Ride *</label>
@@ -162,9 +162,21 @@
       const ridePrice = routePrices[location] || 0;
       const totalRide = ridePrice * seats;
 
-      // 7kg bag free, each additional 23kg bag costs $15
-      const extraBags = bags > 1 ? bags - 1 : 0;
-      const bagCharge = extraBags * 15;
+      // Bag pricing logic as requested:
+      let bagCharge = 0;
+      if (bags === 1) {
+        bagCharge = 0; // 7kg bag free
+      } else if (bags === 2) {
+        bagCharge = 30; // both 23kg bags = $30
+      } else if (bags === 3) {
+        bagCharge = 45; // all 23kg bags = $45
+      } else if (bags === 4) {
+        bagCharge = 60; // all 23kg bags = $60
+      } else if (bags === 0) {
+        bagCharge = 0;
+      } else {
+        bagCharge = 0; // For 5 bags or others, pricing not defined, so 0 by default
+      }
 
       const totalPrice = totalRide + bagCharge;
 
