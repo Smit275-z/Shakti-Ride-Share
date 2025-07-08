@@ -174,17 +174,17 @@
       const totalPrice = ridePrice + extraBagCharge;
 
       const message = `🚗 *New Ride Booking* 🚗%0A
-*Name:* ${name}/n
-*Phone:* ${phone}/n
-*Route:* ${location} ($${ridePrice})/n
-*Pickup:* ${pickup}/n
-*Drop-off:* ${dropoff}/n
-*Bags:* ${bags} (${extraBagCharge > 0 ? "$" + extraBagCharge : "Free"})/n
-*Date:* ${date}/n
-*Time:* ${time}/n
-*Seats:* ${seats}/n
-*Total Price:* $${totalPrice}/n
-${requests ? "*Request:* " + requests + "/n" : ""}`;
+*Name:* ${name}\n
+*Phone:* ${phone}\n
+*Route:* ${location} ($${ridePrice})\n
+*Pickup:* ${pickup}\n
+*Drop-off:* ${dropoff}\n
+*Bags:* ${bags} (${extraBagCharge > 0 ? "$" + extraBagCharge : "Free"})\n
+*Date:* ${date}\n
+*Time:* ${time}\n
+*Seats:* ${seats}\n
+*Total Price:* $${totalPrice}\n
+${requests ? "*Request:* " + requests + "\n" : ""}`;
 
       // 🔁 Replace YOUR_NUMBER_HERE with your actual number (e.g., "16478881234")
       const whatsappNumber = "16475643731";
