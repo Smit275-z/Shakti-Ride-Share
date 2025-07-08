@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shakti Ride Share Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #333;
+    }
+    header {
+      background-color: #d32f2f;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    main {
+      max-width: 650px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border: 2px solid #d32f2f;
+      border-radius: 10px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1.2rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1.5px solid #d32f2f;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #d32f2f;
+      color: white;
+      padding: 1rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      margin-top: 2rem;
+      cursor: pointer;
+    }
+    #summary {
+      margin-top: 2rem;
+      background: #fff5f5;
+      border: 2px dashed #d32f2f;
+      padding: 1rem;
+      white-space: pre-line;
+      display: none;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #d32f2f;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>Shakti Ride Share Booking</header>
+  <main>
+    <form id="rideForm" onsubmit="return sendToWhatsApp(event)">
+      <label for="fullName">Full Name *</label>
+      <input type="text" id="fullName" required />
+
+      <label for="phone">Phone Number *</label>
+      <input type="tel" id="phone" required placeholder="+1 123 456 7890" />
+
+      <label for="location">Select Route & Price *</label>
+      <select id="location" required>
+        <option value="" disabled selected>Select your route</option>
+        <option value="Windsor to London">$30 — Windsor to London</option>
+        <option value="Windsor to Kitchener or Cambridge">$40 — Windsor to Kitchener or Cambridge</option>
+        <option value="Windsor to Brampton or Mississauga or Airport">$45 — Windsor to Brampton or Mississauga or Airport</option>
+        <option value="Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York">$50 — Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York</option>
+        <option value="Return: London to Windsor">$30 — Return: London to Windsor</option>
+        <option value="Return: Kitchener or Cambridge to Windsor">$40 — Return: Kitchener or Cambridge to Windsor</option>
+        <option value="Return: Brampton or Mississauga or Airport to Windsor">$45 — Return: Brampton or Mississauga or Airport to Windsor</option>
+        <option value="Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor">$50 — Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor</option>
+      </select>
+
+      <label for="pickup">Pickup Location *</label>
+      <input type="text" id="pickup" required placeholder="Include city and postal code" />
+
+      <label for="dropoff">Drop-off Location *</label>
+      <input type="text" id="dropoff" required placeholder="Include city and postal code" />
+
+      <label for="bags">Number of Bags *</label>
+      <select id="bags" required>
+        <option value="" disabled selected>Select number of bags</option>
+        <option value="0">0 bags</option>
+        <option value="1">1 bag (7kg - free)</option>
+        <option value="2">2 bags (23kg - $15 per bag)</option>
+        <option value="3">3 bags (23kg - $15 per bag)</option>
+        <option value="4">4 bags (23kg - $15 per bag)</option>
+        <option value="5">5 bags (23kg - $15 per bag)</option>
+      </select>
+
+      <label for="date">Date of Ride *</label>
+      <input type="date" id="date" required />
+
+      <label for="time">Time of Ride *</label>
+      <select id="time" required>
+        <option value="" disabled selected>Select time</option>
+        <option>7:00 AM</option>
+        <option>8:00 AM</option>
+        <option>10:00 AM</option>
+        <option>2:00 PM</option>
+        <option>3:00 PM</option>
+        <option>5:00 PM</option>
+        <option>Other (write in request)</option>
+      </select>
+
+      <label for="seats">Number of Seats *</label>
+      <select id="seats" required>
+        <option value="" disabled selected>Select seats</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5+</option>
+      </select>
+
+      <label for="requests">Special Requests (Private ride, custom time, etc.)</label>
+      <textarea id="requests" rows="3" placeholder="Mention your request here"></textarea>
+
+      <div id="summary"></div>
+
+      <button type="submit">Send Booking via WhatsApp</button>
+    </form>
+  </main>
+
+  <footer>http://ShaktiRideShare.com</footer>
+
+  <script>
+    const routePrices = {
+      "Windsor to London": 30,
+      "Windsor to Kitchener or Cambridge": 40,
+      "Windsor to Brampton or Mississauga or Airport": 45,
+      "Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York": 50,
+      "Return: London to Windsor": 30,
+      "Return: Kitchener or Cambridge to Windsor": 40,
+      "Return: Brampton or Mississauga or Airport to Windsor": 45,
+      "Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor": 50
+    };
+
+    function sendToWhatsApp(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("fullName").value;
+      const phone = document.getElementById("phone").value;
+      const location = document.getElementById("location").value;
+      const pickup = document.getElementById("pickup").value;
+      const dropoff = document.getElementById("dropoff").value;
+      const bags = parseInt(document.getElementById("bags").value);
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const seats = document.getElementById("seats").value;
+      const requests = document.getElementById("requests").value;
+
+      const ridePrice = routePrices[location] || 0;
+      const extraBagCharge = bags > 1 ? (bags - 1) * 15 : 0;
+      const totalPrice = ridePrice + extraBagCharge;
+
+      const message = `🚗 *New Ride Booking* 🚗%0A
+*Name:* ${name}%0A
+*Phone:* ${phone}%0A
+*Route:* ${location} ($${ridePrice})%0A
+*Pickup:* ${pickup}%0A
+*Drop-off:* ${dropoff}%0A
+*Bags:* ${bags} (${extraBagCharge > 0 ? "$" + extraBagCharge : "Free"})%0A
+*Date:* ${date}%0A
+*Time:* ${time}%0A
+*Seats:* ${seats}%0A
+*Total Price:* $${totalPrice}%0A
+${requests ? "*Request:* " + requests + "%0A" : ""}`;
+
+      // 🔁 Replace YOUR_NUMBER_HERE with your actual number (e.g., "16478881234")
+      const whatsappNumber = "16475643731";
+
+      const waURL = `https://wa.me/${16475643731}?text=${encodeURIComponent(message)}`;
+      window.open(waURL, '_blank');
+    }
+  </script>
+</body>
+</html>
