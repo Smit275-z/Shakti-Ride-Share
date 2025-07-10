@@ -70,7 +70,7 @@
       <input type="tel" id="phone" required placeholder="+1 123 456 7890" />
 
       <label for="location">Select Route & Price *</label>
-      <select id="location" required>
+      <select id="location" required onchange="updateTimeOptions()">
         <option value="" disabled selected>Select your route</option>
         <option value="Windsor to London">$30 — Windsor to London</option>
         <option value="Windsor to Kitchener or Cambridge">$40 — Windsor to Kitchener or Cambridge</option>
@@ -105,13 +105,6 @@
       <label for="time">Time of Ride *</label>
       <select id="time" required>
         <option value="" disabled selected>Select time</option>
-        <option>7:00 AM</option>
-        <option>8:00 AM</option>
-        <option>10:00 AM</option>
-        <option>2:00 PM</option>
-        <option>3:00 PM</option>
-        <option>5:00 PM</option>
-        <option>Other (write in request)</option>
       </select>
 
       <label for="seats">Number of Seats *</label>
@@ -145,6 +138,32 @@
       "Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor": 50
     };
 
+    function updateTimeOptions() {
+      const timeSelect = document.getElementById("time");
+      const selectedRoute = document.getElementById("location").value;
+
+      // Clear previous options
+      timeSelect.innerHTML = `<option value="" disabled selected>Select time</option>`;
+
+      // Determine direction
+      let timeOptions = [];
+
+      if (selectedRoute.startsWith("Windsor to")) {
+        timeOptions = ["7:00 AM", "8:00 AM", "10:00 AM"];
+      } else if (selectedRoute.startsWith("Return:")) {
+        timeOptions = ["2:00 PM", "3:00 PM", "5:00 PM"];
+      }
+
+      timeOptions.push("Other (write in request)");
+
+      for (let time of timeOptions) {
+        const option = document.createElement("option");
+        option.value = time;
+        option.textContent = time;
+        timeSelect.appendChild(option);
+      }
+    }
+
     function sendToWhatsApp(e) {
       e.preventDefault();
 
@@ -162,21 +181,10 @@
       const ridePrice = routePrices[location] || 0;
       const totalRide = ridePrice * seats;
 
-      // Bag pricing logic as requested:
       let bagCharge = 0;
-      if (bags === 1) {
-        bagCharge = 0; // 7kg bag free
-      } else if (bags === 2) {
-        bagCharge = 30; // both 23kg bags = $30
-      } else if (bags === 3) {
-        bagCharge = 45; // all 23kg bags = $45
-      } else if (bags === 4) {
-        bagCharge = 60; // all 23kg bags = $60
-      } else if (bags === 0) {
-        bagCharge = 0;
-      } else {
-        bagCharge = 0; // For 5 bags or others, pricing not defined, so 0 by default
-      }
+      if (bags === 2) bagCharge = 30;
+      else if (bags === 3) bagCharge = 45;
+      else if (bags === 4) bagCharge = 60;
 
       const totalPrice = totalRide + bagCharge;
 
@@ -193,8 +201,8 @@
       message += `*Total Price:* $${totalPrice}\n`;
       if (requests) message += `*Request:* ${requests}`;
 
-      const whatsappNumber = "16475643731"; // Replace with your own number if needed
-      const waURL = `https://wa.me/${16475643731}?text=${encodeURIComponent(message)}`;
+      const whatsappNumber = "16475643731";
+      const waURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       window.open(waURL, '_blank');
     }
   </script>
