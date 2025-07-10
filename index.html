@@ -21,14 +21,28 @@
       padding: 1.5rem 2rem;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       flex-wrap: wrap;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .header-left {
+      max-width: 60%;
+    }
+
+    .route {
       font-size: 1.4rem;
       font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .services {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .services p {
+      margin: 0.3rem 0;
     }
 
     .header-right {
@@ -50,6 +64,10 @@
       border-radius: 10px;
       background-color: #ffffff;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
     }
 
     label {
@@ -88,23 +106,6 @@
       background-color: #fdd835;
     }
 
-    .services {
-      max-width: 650px;
-      width: 90%;
-      margin: 2rem auto;
-      padding: 1.5rem 2rem;
-      border: 2px solid #000000;
-      border-radius: 10px;
-      background-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      line-height: 1.6;
-      font-size: 1rem;
-    }
-
-    .services p {
-      margin: 0.5rem 0;
-    }
-
     footer {
       text-align: center;
       padding: 1rem;
@@ -117,7 +118,14 @@
 </head>
 <body>
   <header>
-    <div class="header-left">Windsor → Toronto → Windsor Daily Ride</div>
+    <div class="header-left">
+      <div class="route">Windsor → Toronto → Windsor Daily Ride</div>
+      <div class="services">
+        <p>➡ Parcel 📦 Delivery Service — Secure & Fast Delivery Across All Stops</p>
+        <p>➡ Private Rides Available 24/7 — Door-to-Door Pickup & Drop-Off</p>
+        <p>➡ 4-Hour Express Service — Fastest Transportation Option Available</p>
+      </div>
+    </div>
     <div class="header-right">
       <p>Smit Patel — 226-975-9755</p>
       <p>Nihar Patel — 647-564-3731</p>
@@ -125,7 +133,7 @@
   </header>
 
   <main>
-    <h1 style="text-align:center;">Shakti Ride Share Booking</h1>
+    <h1>Shakti Ride Share Booking</h1>
     <form id="rideForm" onsubmit="return sendToWhatsApp(event)">
       <label for="fullName">Full Name *</label>
       <input type="text" id="fullName" required />
@@ -187,12 +195,6 @@
       <button type="submit">Send Booking via WhatsApp</button>
     </form>
   </main>
-
-  <section class="services">
-    <p>➡ Parcel 📦 Delivery Service<br>Secure & Fast Delivery Across All Stops</p>
-    <p>➡ Private Rides Available 24/7<br>Door-to-Door Pickup & Drop-Off</p>
-    <p>➡ 4-Hour Express Service<br>Fastest Transportation Option Available</p>
-  </section>
 
   <footer>http://ShaktiRideShare.com</footer>
 
