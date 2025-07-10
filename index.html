@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -142,10 +142,9 @@
       const timeSelect = document.getElementById("time");
       const selectedRoute = document.getElementById("location").value;
 
-      // Clear previous options
-      timeSelect.innerHTML = `<option value="" disabled selected>Select time</option>`;
+      // Clear existing options
+      timeSelect.innerHTML = '<option value="" disabled selected>Select time</option>';
 
-      // Determine direction
       let timeOptions = [];
 
       if (selectedRoute.startsWith("Windsor to")) {
