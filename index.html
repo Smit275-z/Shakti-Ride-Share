@@ -11,21 +11,35 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      /* 🚕 Background photo with gradient overlay */
-      background: 
-        linear-gradient(rgba(255, 235, 59, 0.75), rgba(255, 255, 255, 0.75)),
-        url("C:\Users\USER\Downloads\WhatsApp Image 2025-07-09 at 19.28.36_478ff706.jpg") center/cover no-repeat;
+      background-color: #ffffff;
       color: #000000;
     }
 
     header {
-      background-color: rgba(255, 235, 59, 0.9);
+      background-color: #ffeb3b;
       color: #000000;
-      padding: 1.5rem;
+      padding: 2rem 1rem;
       text-align: center;
-      font-size: 1.8rem;
-      font-weight: bold;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      margin: 0 0 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      margin: 0.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header p::before {
+      content: "📞";
+      font-size: 1.2rem;
     }
 
     main {
@@ -35,7 +49,7 @@
       padding: 2rem;
       border: 2px solid #000000;
       border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: #ffffff;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
@@ -78,7 +92,7 @@
     footer {
       text-align: center;
       padding: 1rem;
-      background-color: rgba(255, 235, 59, 0.9);
+      background-color: #ffeb3b;
       color: #000000;
       margin-top: auto;
       box-shadow: 0 -4px 8px rgba(0,0,0,0.05);
@@ -86,7 +100,11 @@
   </style>
 </head>
 <body>
-  <header>Shakti Ride Share Booking</header>
+  <header>
+    <h1>Shakti Ride Share</h1>
+    <p>Smit Patel — 226-975-9755</p>
+    <p>Nihar Patel — 647-564-3731</p>
+  </header>
   <main>
     <form id="rideForm" onsubmit="return sendToWhatsApp(event)">
       <label for="fullName">Full Name *</label>
@@ -100,11 +118,11 @@
         <option value="" disabled selected>Select your route</option>
         <option value="Windsor to London">$30 — Windsor to London</option>
         <option value="Windsor to Kitchener or Cambridge">$40 — Windsor to Kitchener or Cambridge</option>
-        <option value="Windsor to Brampton or Mississauga or Airport">$45 — Windsor to Brampton or Mississauga or Airport</option>
+        <option value="Windsor to Brampton or Mississauga or Airport">$50 — Windsor to Brampton or Mississauga or Airport</option>
         <option value="Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York">$50 — Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York</option>
         <option value="Return: London to Windsor">$30 — Return: London to Windsor</option>
         <option value="Return: Kitchener or Cambridge to Windsor">$40 — Return: Kitchener or Cambridge to Windsor</option>
-        <option value="Return: Brampton or Mississauga or Airport to Windsor">$45 — Return: Brampton or Mississauga or Airport to Windsor</option>
+        <option value="Return: Brampton or Mississauga or Airport to Windsor">$50 — Return: Brampton or Mississauga or Airport to Windsor</option>
         <option value="Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor">$50 — Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor</option>
       </select>
 
@@ -156,11 +174,11 @@
     const routePrices = {
       "Windsor to London": 30,
       "Windsor to Kitchener or Cambridge": 40,
-      "Windsor to Brampton or Mississauga or Airport": 45,
+      "Windsor to Brampton or Mississauga or Airport": 50,
       "Windsor to Downtown Toronto, Scarborough, Markham, Vaughan, North York": 50,
       "Return: London to Windsor": 30,
       "Return: Kitchener or Cambridge to Windsor": 40,
-      "Return: Brampton or Mississauga or Airport to Windsor": 45,
+      "Return: Brampton or Mississauga or Airport to Windsor": 50,
       "Return: Downtown Toronto, Scarborough, Markham, Vaughan, North York to Windsor": 50
     };
 
@@ -226,7 +244,7 @@
       if (requests) message += `*Request:* ${requests}`;
 
       const whatsappNumber = "16475643731";
-      const waURL = `https://wa.me/${16475643731}?text=${encodeURIComponent(message)}`;
+      const waURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       window.open(waURL, '_blank');
     }
   </script>
